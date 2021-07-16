@@ -1,3 +1,8 @@
 /tmp/
 /local/
 /code-server*/
+*.tar
+*.gz
+*.tar.gz
+.cache/
+artifacts/

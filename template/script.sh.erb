@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 <%
 
 # Set our working directory.
@@ -12,6 +12,8 @@ elsif working_dir.file?
 end
 %>
 
+CODESERVER_IMAGE="/work/HCC/SINGULARITY/IMAGES/codeserver-<%= context.codeserver_version %>.sif"
+
 CODE_SERVER_DATAROOT="$HOME/.local/share/code-server"
 mkdir -p "$CODE_SERVER_DATAROOT/extensions"
 
@@ -21,8 +23,12 @@ export PASSWORD="$password"
 # Print compute node.
 echo "$(date): Running on compute node ${compute_node}:$port"
 
-# VSCode complains that system git is too old.
-module load project/ondemand git app_code_server/<%= context.version %>
+# Load modules
+. /util/opt/lmod/lmod/init/profile
+export -f module
+module use /util/opt/hcc-modules/Common
+module purge
+module load singularity
 
 #
 # Start Code Server.
@@ -30,7 +36,7 @@ module load project/ondemand git app_code_server/<%= context.version %>
 echo "$(date): Started code-server"
 echo ""
 
-code-server \
+singularity exec $CODESERVER_IMAGE code-server \
     --auth="password" \
     --bind-addr="0.0.0.0:${port}" \
     --disable-telemetry \

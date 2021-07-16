@@ -1,7 +1,7 @@
 # Disable debuginfo as it causes issues with bundled gems that build libraries
 %global debug_package %{nil}
-%global repo_name bc_osc_codeserver
-%global app_name bc_osc_codeserver
+%global repo_name bc-hcc-codeserver
+%global app_name bc_hcc_codeserver
 %{!?package_version: %define package_version %{major}.%{minor}.%{patch}}
 %{!?package_release: %define package_release 1}
 %{!?git_tag: %define git_tag v%{package_version}}
@@ -10,12 +10,12 @@
 Name:     ondemand-%{app_name}
 Version:  %{package_version}
 Release:  %{package_release}%{?dist}
-Summary:  Batch Connect - OSC Code Server
+Summary:  Batch Connect - HCC Code Server
 
 Group:    System Environment/Daemons
 License:  MIT
-URL:      https://github.com/OSC/%{repo_name}
-Source0:  https://github.com/OSC/%{repo_name}/archive/%{git_tag}.tar.gz
+URL:      https://git.unl.edu/hcc/%{repo-name}
+Source0:  bc-hcc-codeserver.tar.gz
 
 Requires: ondemand
 
@@ -24,7 +24,7 @@ Requires: ondemand
 AutoReqProv: no
 
 %description
-An interactive app designed for OSC OnDemand that launches a Code Server within an Owens batch job.
+An Batch Connect app that launches a Code Server within a batch job.
 
 
 %prep
