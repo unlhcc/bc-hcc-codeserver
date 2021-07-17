@@ -2,7 +2,6 @@
 cores = bc_num_cores.blank? ? 1 : bc_num_cores.to_i
 mem = bc_memory.blank? ? 1 : bc_memory.to_i
 nodes = bc_num_slots.blank? ? 1 : bc_num_slots.to_i
-
 %>
 ---
 batch_connect:
@@ -12,10 +11,10 @@ script:
   copy_environment: true
   email: ["<%= bc_email_address.strip %>"]
   native:
-     "--mem"
-    - "<%= mem %>GB"
     - "--licenses"
     - "common"
+    - "--mem"
+    - "<%= mem %>GB"
     - "--ntasks-per-node"
     - "<%= cores %>"
     - "--nodes"

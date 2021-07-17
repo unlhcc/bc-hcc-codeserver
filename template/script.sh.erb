@@ -12,6 +12,11 @@ elsif working_dir.file?
 end
 %>
 
+# Singularity tweaks
+export COMMON=${HOME/#\/home/\/common}
+export SINGULARITYENV_PS1="[\u@\h \W]\$ "
+export SINGULARITY_BINDPATH="/home,/work,/common,/util"
+# Image file
 CODESERVER_IMAGE="/work/HCC/SINGULARITY/IMAGES/codeserver-<%= context.codeserver_version %>.sif"
 
 CODE_SERVER_DATAROOT="$HOME/.local/share/code-server"
