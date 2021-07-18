@@ -1,6 +1,6 @@
 # Batch Connect - HCC Code Server
 
-![GitHub Release](https://img.shields.io/github/release/osc/bc_osc_codeserver.svg)
+[![pipeline status](https://git.unl.edu/hcc/bc-hcc-codeserver/badges/master/pipeline.svg)](https://git.unl.edu/hcc/bc-hcc-codeserver/-/commits/master)
 [![GitHub License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 An improved file viewer / editor for OSC OnDemand that launches a
