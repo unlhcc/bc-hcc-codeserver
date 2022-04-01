@@ -5,6 +5,7 @@ attributes:
     label: "Code-server Version"
     options:
       - ["3.10", "3.10"]
+      - ["4.2", "4.2"]
   working_dir:
     label: "Working Directory"
     data-filepicker: true
@@ -22,7 +23,7 @@ attributes:
     max: 8
     step: 1
     value: "1"
-  bc_memory: 4
+  bc_memory: 8
   bc_email_address:
     widget: "email_field"
     value: ""
