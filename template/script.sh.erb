@@ -12,12 +12,12 @@ elsif working_dir.file?
 end
 %>
 
-# Singularity tweaks
+# Apptainer tweaks
 export COMMON=${HOME/#\/home/\/common}
-export SINGULARITYENV_PS1="[\u@\h \W]\$ "
-export SINGULARITY_BINDPATH="/home,/work,/common,/util"
+export APPTAINERENV_PS1="[\u@\h \W]\$ "
+export APPTAINER_BINDPATH="/home,/work,/common,/util"
 # Image file
-CODESERVER_IMAGE="/work/HCC/SINGULARITY/IMAGES/codeserver-<%= context.codeserver_version %>.sif"
+CODESERVER_IMAGE="/work/HCC/APPTAINER/IMAGES/codeserver-<%= context.codeserver_version %>.sif"
 
 CODE_SERVER_DATAROOT="$HOME/.local/share/code-server"
 mkdir -p "$CODE_SERVER_DATAROOT/extensions"
@@ -33,7 +33,7 @@ echo "$(date): Running on compute node ${compute_node}:$port"
 export -f module
 module use /util/opt/hcc-modules/Common
 module purge
-module load singularity
+module load apptainer
 
 #
 # Start Code Server.
@@ -41,7 +41,7 @@ module load singularity
 echo "$(date): Started code-server"
 echo ""
 
-singularity exec $CODESERVER_IMAGE code-server \
+apptainer exec $CODESERVER_IMAGE code-server \
     --auth="password" \
     --bind-addr="0.0.0.0:${port}" \
     --disable-telemetry \

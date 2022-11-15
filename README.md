@@ -17,10 +17,12 @@ OnDemand node):
   CLI used to load appropriate environments within the batch job before
   launching Code server.
 - [Code Server] 2.x+ available from Github: https://github.com/cdr/code-server/releases
+- [Apptainer]
 
 [Code Server]: https://coder.com/
 [Lmod]: https://www.tacc.utexas.edu/research-development/tacc-projects/lmod
 [VS Code]: https://code.visualstudio.com/
+[Apptainer]: https://apptainer.org
 
 ## Build/Install
 
