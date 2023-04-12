@@ -15,7 +15,7 @@ end
 # Apptainer tweaks
 export COMMON=${HOME/#\/home/\/common}
 export APPTAINERENV_PS1="[\u@\h \W]\$ "
-export APPTAINER_BINDPATH="/home,/work,/common,/util"
+export APPTAINER_BINDPATH="/home,/work,/common,/util,/srv,/var/run,/run"
 # Image file
 CODESERVER_IMAGE="/work/HCC/APPTAINER/IMAGES/codeserver-<%= context.codeserver_version %>.sif"
 
@@ -45,7 +45,12 @@ apptainer exec $CODESERVER_IMAGE code-server \
     --auth="password" \
     --bind-addr="0.0.0.0:${port}" \
     --disable-telemetry \
-    --extra-extensions-dir="$CODE_SERVER_DATAROOT/extensions" \
+    --extensions-dir="$CODE_SERVER_DATAROOT/extensions" \
     --user-data-dir="$CODE_SERVER_DATAROOT" \
-    --log debug \
+    --verbose \
+    --ignore-last-opened \
+    --disable-getting-started-override \
+    --disable-update-check \
+    -w "Welcome to code-server on ${compute_node}" \
+    -an "HCC Code-Server" \
     "<%= working_dir.to_s %>"

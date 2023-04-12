@@ -5,7 +5,7 @@
 export port=$(find_port ${host})
 
 # Export compute node the script is running on
-export host="${host}"
+export compute_node="${host}"
 
 # Generate SHA1 encrypted password (requires OpenSSL installed)
 export password="$(create_passwd 16)"
