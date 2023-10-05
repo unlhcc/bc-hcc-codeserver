@@ -28,12 +28,21 @@ export PASSWORD="$password"
 # Print compute node.
 echo "$(date): Running on compute node ${compute_node}:$port"
 
-# Load modules
+# Load apptainer modules
 . /util/opt/lmod/lmod/init/profile
 export -f module
 module use /util/opt/hcc-modules/Common
 module purge
 module load apptainer
+
+# Load any user-specific modules for new shell sessions in the container.
+cat > 99-session-modules.sh << EOL
+#!/bin/bash
+module purge
+module load <%= context.addl_modules %>
+module list
+EOL
+chmod +x 99-session-modules.sh
 
 #
 # Start Code Server.
@@ -41,7 +50,17 @@ module load apptainer
 echo "$(date): Started code-server"
 echo ""
 
-apptainer exec $CODESERVER_IMAGE code-server \
+# Load any user-specific modules for the code-server session as well.
+# Yes, we really do have to load the modules both here and for new
+# shells. The processes code-server spins off do *not* inherit its env.
+cat > codesession.sh << EOL
+#!/bin/bash
+. /util/opt/lmod/lmod/init/profile
+module use /util/opt/hcc-modules/Common
+module purge
+module load <%= context.addl_modules %>
+module list
+code-server \
     --auth="password" \
     --bind-addr="0.0.0.0:${port}" \
     --disable-telemetry \
@@ -53,4 +72,9 @@ apptainer exec $CODESERVER_IMAGE code-server \
     --disable-update-check \
     -w "Welcome to code-server on ${compute_node}" \
     -an "HCC Code-Server" \
+    --config $PWD/config.yaml \
     "<%= working_dir.to_s %>"
+EOL
+chmod +x codesession.sh
+
+apptainer exec -B $PWD/99-session-modules.sh:/etc/profile.d/99-session-modules.sh $CODESERVER_IMAGE ./codesession.sh

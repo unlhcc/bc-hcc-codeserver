@@ -4,7 +4,7 @@ attributes:
     widget: "select"
     label: "Code-server Version"
     options:
-      - ["4.11", "4.11.0"]
+      - ["4.17", "4.17.1"]
   working_dir:
     label: "Project Directory"
     data-filepicker: true
@@ -83,12 +83,18 @@ attributes:
     label: "Reservation"
     help: "Submit to a specific reservation if your account has access."
     value: ''
+  addl_modules:
+    label: "Additional modules (optional)"
+    help: |
+        <small>Space separated list of additional modules to load (eg. `ffmpeg/4.4`)</br/>
+        Full list for [Swan](https://hcc.unl.edu/docs/applications/modules/available_software_for_swan/)</small>
+
 
 
 form:
   - codeserver_version
   - working_dir
-  - bc_queue
+  - addl_modules
   - bc_num_slots
   - bc_num_hours
   - bc_num_cores
