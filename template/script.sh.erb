@@ -26,7 +26,7 @@ echo "$(date): Running on compute node ${compute_node}:$port"
 export -f module
 module use /util/opt/hcc-modules/Common
 module purge
-module load <%= context.codeserver_version %>
+module load <%= context.codeserver_version %> git make cmake
 
 # Load additional modules
 <%- unless context.addl_modules.blank? -%>
