@@ -4,7 +4,7 @@ attributes:
     widget: "select"
     label: "Code-server Version"
     options:
-      - ["4.17", "4.17.1"]
+      - ["4.17", "code-server/4.17"]
   working_dir:
     label: "Project Directory"
     data-filepicker: true
