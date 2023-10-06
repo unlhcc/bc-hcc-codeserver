@@ -12,13 +12,6 @@ elsif working_dir.file?
 end
 %>
 
-# Apptainer tweaks
-export COMMON=${HOME/#\/home/\/common}
-export APPTAINERENV_PS1="[\u@\h \W]\$ "
-export APPTAINER_BINDPATH="/home,/work,/common,/util,/srv,/var/run,/run"
-# Image file
-CODESERVER_IMAGE="/work/HCC/APPTAINER/IMAGES/codeserver-<%= context.codeserver_version %>.sif"
-
 CODE_SERVER_DATAROOT="$HOME/.local/share/code-server"
 mkdir -p "$CODE_SERVER_DATAROOT/extensions"
 
@@ -28,21 +21,17 @@ export PASSWORD="$password"
 # Print compute node.
 echo "$(date): Running on compute node ${compute_node}:$port"
 
-# Load apptainer modules
+# Load code-server module
 . /util/opt/lmod/lmod/init/profile
 export -f module
 module use /util/opt/hcc-modules/Common
 module purge
-module load apptainer
+module load <%= context.codeserver_version %>
 
-# Load any user-specific modules for new shell sessions in the container.
-cat > 99-session-modules.sh << EOL
-#!/bin/bash
-module purge
+# Load additional modules
+<%- unless context.addl_modules.blank? -%>
 module load <%= context.addl_modules %>
-module list
-EOL
-chmod +x 99-session-modules.sh
+<%- end -%>
 
 #
 # Start Code Server.
@@ -50,16 +39,6 @@ chmod +x 99-session-modules.sh
 echo "$(date): Started code-server"
 echo ""
 
-# Load any user-specific modules for the code-server session as well.
-# Yes, we really do have to load the modules both here and for new
-# shells. The processes code-server spins off do *not* inherit its env.
-cat > codesession.sh << EOL
-#!/bin/bash
-. /util/opt/lmod/lmod/init/profile
-module use /util/opt/hcc-modules/Common
-module purge
-module load <%= context.addl_modules %>
-module list
 code-server \
     --auth="password" \
     --bind-addr="0.0.0.0:${port}" \
@@ -74,7 +53,3 @@ code-server \
     -an "HCC Code-Server" \
     --config $PWD/config.yaml \
     "<%= working_dir.to_s %>"
-EOL
-chmod +x codesession.sh
-
-apptainer exec -B $PWD/99-session-modules.sh:/etc/profile.d/99-session-modules.sh $CODESERVER_IMAGE ./codesession.sh
