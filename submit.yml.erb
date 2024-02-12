@@ -11,6 +11,8 @@ script:
   copy_environment: true
   email: ["<%= bc_email_address.strip %>"]
   native:
+    - "--qos"
+    - "<%= qos_type %>"
     - "--licenses"
     - "common"
     - "--mem"
@@ -19,3 +21,9 @@ script:
     - "<%= cores %>"
     - "--nodes"
     - "<%= nodes %>"
+    - "--constraint"
+    - "<%= bc_constraint.strip %>"
+    - "--gres"
+    - "<%= bc_gres.strip %>"
+    - "--reservation"
+    - "<%= bc_reservation.strip %>"
