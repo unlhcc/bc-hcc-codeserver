@@ -4,6 +4,7 @@ attributes:
     widget: "select"
     label: "Code-server Version"
     options:
+      - ["4.89", "code-server/4.89"]
       - ["4.17", "code-server/4.17"]
   working_dir:
     label: "Project Directory"
